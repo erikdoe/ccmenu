@@ -12,7 +12,7 @@ static void initialize()
 {
 	if(filenames != nil)
 		return;
-	NSString *plist = @"( 'cctray.xml', 'xml', 'XmlStatusReport.aspx', 'cc.xml' )";
+	NSString *plist = @"( 'cctray.xml', 'xml', 'XmlStatusReport.aspx', 'cc.xml', '/' )";
 	filenames = [[plist propertyList] copy];
 }
 
@@ -127,9 +127,13 @@ static void initialize()
 	[urls addObject:[self completeURLForServerType:CCMCruiseControlClassic]];
 	[urls addObject:[self completeURLForServerType:CCMCruiseControlDotNetServer]];
 	[urls addObject:[self completeURLForServerType:CCMCruiseControlDotNetServer withPath:@"ccnet"]];
-	[urls addObject:[self completeURLForServerType:CCMHudsonServer]];
-	[urls addObject:[self completeURLForServerType:CCMHudsonServer withPath:@"hudson"]];
-	return [urls allObjects];
+    [urls addObject:[self completeURLForServerType:CCMHudsonServer]];
+    [urls addObject:[self completeURLForServerType:CCMHudsonServer withPath:@"hudson"]];
+//    [urls addObject:[self completeURLForServerType:CCMXcodeBot]];
+    [urls addObject:[self completeURLForServerType:CCMXcodeBot withPath:@"api/bots"]];
+//    [urls addObject:[self completeURLForServerType:CCMXcodeBot withPath:@"api/bots"]];
+//    [urls addObject:[self completeURLForServerType:CCMXcodeBot withPath:@"api"]];
+    return [urls allObjects];
 }
 
 - (NSString *)stringByRemovingServerReportFileName

@@ -2,7 +2,8 @@
 #import <SecurityInterface/SFCertificateTrustPanel.h>
 #import "NSData+Extensions.h"
 #import "CCMConnection.h"
-#import "CCMServerStatusReader.h"
+#import "CCMXmlServerStatusReader.h"
+#import "CCMBotsServerStatusReader.h"
 #import "CCMKeychainHelper.h"
 #import "NSString+EDExtensions.h"
 
@@ -181,14 +182,28 @@
         [delegate connection:self hadTemporaryError:[self errorStringForResponse:receivedResponse]];
         return;
     }
-    CCMServerStatusReader *reader = [[[CCMServerStatusReader alloc] initWithServerResponse:receivedData] autorelease];
-    [self cleanUpAfterRequest];
-    NSError *error = nil;
-    NSArray *infos = [reader readProjectInfos:&error];
-    if(infos != nil)
-        [delegate connection:self didReceiveServerStatus:infos];
-    else
-        [delegate connection:self hadTemporaryError:[self errorStringForParseError:error]];
+    CCMXmlServerStatusReader *reader = [[[CCMXmlServerStatusReader alloc] initWithServerResponse:receivedData] autorelease];
+    if (reader.isXml) {
+        [self cleanUpAfterRequest];
+        NSError *error = nil;
+        NSArray *infos = [reader readProjectInfos:&error];
+        if(infos != nil)
+            [delegate connection:self didReceiveServerStatus:infos];
+        else
+            [delegate connection:self hadTemporaryError:[self errorStringForParseError:error]];
+    }
+    else {
+    
+        CCMBotsServerStatusReader* botsReader = [[[CCMBotsServerStatusReader alloc] initWithServerResponse:receivedData fromBaseURL:connection.currentRequest.URL.absoluteString] autorelease];
+        
+        [self cleanUpAfterRequest];
+        NSError *error = nil;
+        NSArray *infos = [botsReader readProjectInfos:&error];
+        if(infos != nil)
+            [delegate connection:self didReceiveServerStatus:infos];
+        else
+            [delegate connection:self hadTemporaryError:[self errorStringForParseError:error]];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error

@@ -1,22 +1,22 @@
 
 #import <XCTest/XCTest.h>
-#import "CCMServerStatusReader.h"
+#import "CCMXmlServerStatusReader.h"
 
 
-@interface CCMServerStatusReaderTest : XCTestCase
+@interface CCMXmlServerStatusReaderTest : XCTestCase
 {
 }
 
 @end
 
 
-@implementation CCMServerStatusReaderTest
+@implementation CCMXmlServerStatusReaderTest
 
 - (void)testParsesXmlData
 {
 	NSString *xml = @"<Projects><Project name='connectfour' activity='Sleeping' lastBuildStatus='Success' lastBuildLabel='build.1' lastBuildTime='2007-07-18T18:44:48' webUrl='http://localhost:8080/dashboard/build/detail/connectfour'/></Projects>";
 	NSData *data = [xml dataUsingEncoding:NSASCIIStringEncoding];
-	CCMServerStatusReader *reader = [[[CCMServerStatusReader alloc] initWithServerResponse:data] autorelease];
+	CCMXmlServerStatusReader *reader = [[[CCMXmlServerStatusReader alloc] initWithServerResponse:data] autorelease];
 
 	NSArray *infos = [reader readProjectInfos:NULL];
 	
@@ -36,7 +36,7 @@
 {
     NSString *xml = @"<Projects><Project name='connectfour' lastBuildTime='2007-07-18T18:44:48' /></Projects>";
     NSData *data = [xml dataUsingEncoding:NSASCIIStringEncoding];
-   	CCMServerStatusReader *reader = [[[CCMServerStatusReader alloc] initWithServerResponse:data] autorelease];
+   	CCMXmlServerStatusReader *reader = [[[CCMXmlServerStatusReader alloc] initWithServerResponse:data] autorelease];
 
    	NSDictionary *info = [[reader readProjectInfos:NULL] objectAtIndex:0];
 
@@ -51,7 +51,7 @@
 {
 	NSString *xml = @"<Projects><Project name='connectfour' lastBuildTime='2007-07-18T18:44:48Z' /></Projects>";
     NSData *data = [xml dataUsingEncoding:NSASCIIStringEncoding];
-	CCMServerStatusReader *reader = [[[CCMServerStatusReader alloc] initWithServerResponse:data] autorelease];
+	CCMXmlServerStatusReader *reader = [[[CCMXmlServerStatusReader alloc] initWithServerResponse:data] autorelease];
 
 	NSDictionary *info = [[reader readProjectInfos:NULL] objectAtIndex:0];
 
@@ -63,7 +63,7 @@
 {
 	NSString *xml = @"<Projects><Project name='connectfour' lastBuildTime='2007-07-18T18:44:48+0800' /></Projects>";
     NSData *data = [xml dataUsingEncoding:NSASCIIStringEncoding];
-	CCMServerStatusReader *reader = [[[CCMServerStatusReader alloc] initWithServerResponse:data] autorelease];
+	CCMXmlServerStatusReader *reader = [[[CCMXmlServerStatusReader alloc] initWithServerResponse:data] autorelease];
 
 	NSDictionary *info = [[reader readProjectInfos:NULL] objectAtIndex:0];
 
@@ -75,7 +75,7 @@
 {
 	NSString *xml = @"<Projects><Project name='connectfour' lastBuildTime='2007-07-18T18:44:48.888-05:00' /></Projects>";
     NSData *data = [xml dataUsingEncoding:NSASCIIStringEncoding];
-	CCMServerStatusReader *reader = [[[CCMServerStatusReader alloc] initWithServerResponse:data] autorelease];
+	CCMXmlServerStatusReader *reader = [[[CCMXmlServerStatusReader alloc] initWithServerResponse:data] autorelease];
 
 	NSDictionary *info = [[reader readProjectInfos:NULL] objectAtIndex:0];
 
@@ -87,7 +87,7 @@
 {
 	NSString *xml = @"<Projects><Project name='connectfour' activity='Sleeping' lastBuildStatus='Success' lastBuildLabel='build.1' lastBuildTime='2007-07-18T18:44:48' webUrl='http://localhost:8080/projectsprojects/connectfour'/></Projects>";
 	NSData *data = [xml dataUsingEncoding:NSASCIIStringEncoding];
-	CCMServerStatusReader *reader = [[[CCMServerStatusReader alloc] initWithServerResponse:data] autorelease];
+	CCMXmlServerStatusReader *reader = [[[CCMXmlServerStatusReader alloc] initWithServerResponse:data] autorelease];
 	
 	NSArray *infos = [reader readProjectInfos:NULL];
 	
@@ -99,7 +99,7 @@
 {
 	NSString *xml = @"<Projects><Project name='connectfour' deliberately broken";
 	NSData *data = [xml dataUsingEncoding:NSASCIIStringEncoding];
-	CCMServerStatusReader *reader = [[[CCMServerStatusReader alloc] initWithServerResponse:data] autorelease];
+	CCMXmlServerStatusReader *reader = [[[CCMXmlServerStatusReader alloc] initWithServerResponse:data] autorelease];
     
     NSError *error = nil;
     NSArray *result = [reader readProjectInfos:&error];

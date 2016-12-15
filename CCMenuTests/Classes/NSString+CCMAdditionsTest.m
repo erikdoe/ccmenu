@@ -100,9 +100,10 @@
 	XCTAssertTrue([urls containsObject:@"http://localhost/xml"], @"Should have returned classic reporting URL.");
 	XCTAssertTrue([urls containsObject:@"http://localhost/XmlStatusReport.aspx"], @"Should have returned CC.NET URL.");
 	XCTAssertTrue([urls containsObject:@"http://localhost/ccnet/XmlStatusReport.aspx"], @"Should have returned alternate CC.NET URL.");
-	XCTAssertTrue([urls containsObject:@"http://localhost/cc.xml"], @"Should have returned Hudson URL.");
-	XCTAssertTrue([urls containsObject:@"http://localhost/hudson/cc.xml"], @"Should have returned alternate Hudson URL.");
-	XCTAssertEqual(8ul, [urls count], @"Should have returned only expected urls.");
+    XCTAssertTrue([urls containsObject:@"http://localhost/cc.xml"], @"Should have returned Hudson URL.");
+    XCTAssertTrue([urls containsObject:@"http://localhost/hudson/cc.xml"], @"Should have returned alternate Hudson URL.");
+    XCTAssertTrue([urls containsObject:@"http://localhost/api/bots"], @"Should have returned xcode bots URL.");
+	XCTAssertEqual(9, [urls count], @"Should have returned only expected urls.");
 }
 
 - (void)testOnlyReturnsOneCompleteURLWhenURLWasComplete
